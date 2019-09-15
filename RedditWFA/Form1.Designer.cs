@@ -38,108 +38,133 @@
             this.postText = new System.Windows.Forms.TextBox();
             this.commentTree = new System.Windows.Forms.TreeView();
             this.userRating = new System.Windows.Forms.TrackBar();
+            this.scoreLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.userRating)).BeginInit();
             this.SuspendLayout();
             // 
             // subRedditList
             // 
             this.subRedditList.FormattingEnabled = true;
-            this.subRedditList.Location = new System.Drawing.Point(12, 73);
+            this.subRedditList.ItemHeight = 16;
+            this.subRedditList.Location = new System.Drawing.Point(16, 90);
+            this.subRedditList.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.subRedditList.Name = "subRedditList";
-            this.subRedditList.Size = new System.Drawing.Size(120, 290);
+            this.subRedditList.Size = new System.Drawing.Size(159, 356);
             this.subRedditList.TabIndex = 0;
             this.subRedditList.SelectedIndexChanged += new System.EventHandler(this.SubRedditList_SelectedIndexChanged);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 54);
+            this.label1.Location = new System.Drawing.Point(17, 66);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(65, 13);
+            this.label1.Size = new System.Drawing.Size(85, 17);
             this.label1.TabIndex = 1;
             this.label1.Text = "Sub Reddits";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(139, 54);
+            this.label2.Location = new System.Drawing.Point(185, 66);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(33, 13);
+            this.label2.Size = new System.Drawing.Size(43, 17);
             this.label2.TabIndex = 2;
             this.label2.Text = "Posts";
             // 
             // postList
             // 
             this.postList.FormattingEnabled = true;
-            this.postList.Location = new System.Drawing.Point(142, 73);
+            this.postList.ItemHeight = 16;
+            this.postList.Location = new System.Drawing.Point(189, 90);
+            this.postList.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.postList.Name = "postList";
-            this.postList.Size = new System.Drawing.Size(120, 134);
+            this.postList.Size = new System.Drawing.Size(159, 164);
             this.postList.TabIndex = 3;
             this.postList.SelectedIndexChanged += new System.EventHandler(this.PostList_SelectedIndexChanged);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(268, 53);
+            this.label3.Location = new System.Drawing.Point(357, 65);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(56, 13);
+            this.label3.Size = new System.Drawing.Size(74, 17);
             this.label3.TabIndex = 5;
             this.label3.Text = "Comments";
             // 
             // commentList
             // 
             this.commentList.FormattingEnabled = true;
-            this.commentList.Location = new System.Drawing.Point(269, 73);
+            this.commentList.ItemHeight = 16;
+            this.commentList.Location = new System.Drawing.Point(359, 90);
+            this.commentList.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.commentList.Name = "commentList";
-            this.commentList.Size = new System.Drawing.Size(247, 82);
+            this.commentList.Size = new System.Drawing.Size(328, 100);
             this.commentList.TabIndex = 6;
             this.commentList.SelectedIndexChanged += new System.EventHandler(this.CommentList_SelectedIndexChanged);
             // 
             // commentBox
             // 
             this.commentBox.AcceptsReturn = true;
-            this.commentBox.Location = new System.Drawing.Point(523, 73);
+            this.commentBox.Location = new System.Drawing.Point(697, 90);
+            this.commentBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.commentBox.Multiline = true;
             this.commentBox.Name = "commentBox";
             this.commentBox.ReadOnly = true;
             this.commentBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.commentBox.Size = new System.Drawing.Size(265, 260);
+            this.commentBox.Size = new System.Drawing.Size(352, 273);
             this.commentBox.TabIndex = 7;
             this.commentBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.CommentBox_MouseDoubleClick);
             // 
             // postText
             // 
             this.postText.AcceptsReturn = true;
-            this.postText.Location = new System.Drawing.Point(142, 213);
+            this.postText.Location = new System.Drawing.Point(189, 262);
+            this.postText.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.postText.Multiline = true;
             this.postText.Name = "postText";
             this.postText.ReadOnly = true;
             this.postText.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.postText.Size = new System.Drawing.Size(120, 150);
+            this.postText.Size = new System.Drawing.Size(159, 184);
             this.postText.TabIndex = 8;
             // 
             // commentTree
             // 
-            this.commentTree.Location = new System.Drawing.Point(269, 161);
+            this.commentTree.Location = new System.Drawing.Point(359, 198);
+            this.commentTree.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.commentTree.Name = "commentTree";
-            this.commentTree.Size = new System.Drawing.Size(248, 202);
+            this.commentTree.Size = new System.Drawing.Size(329, 248);
             this.commentTree.TabIndex = 9;
             // 
             // userRating
             // 
-            this.userRating.Location = new System.Drawing.Point(523, 340);
+            this.userRating.Location = new System.Drawing.Point(697, 418);
+            this.userRating.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.userRating.Maximum = 5;
             this.userRating.Name = "userRating";
-            this.userRating.Size = new System.Drawing.Size(265, 45);
+            this.userRating.Size = new System.Drawing.Size(353, 56);
             this.userRating.TabIndex = 10;
             this.userRating.Value = 2;
             this.userRating.Scroll += new System.EventHandler(this.UserRating_Scroll);
             // 
+            // scoreLabel
+            // 
+            this.scoreLabel.AutoSize = true;
+            this.scoreLabel.Location = new System.Drawing.Point(695, 367);
+            this.scoreLabel.Name = "scoreLabel";
+            this.scoreLabel.Size = new System.Drawing.Size(45, 17);
+            this.scoreLabel.TabIndex = 11;
+            this.scoreLabel.Text = "Score";
+            this.scoreLabel.Click += new System.EventHandler(this.Label4_Click);
+            // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 383);
+            this.ClientSize = new System.Drawing.Size(1067, 471);
+            this.Controls.Add(this.scoreLabel);
             this.Controls.Add(this.userRating);
             this.Controls.Add(this.commentTree);
             this.Controls.Add(this.postText);
@@ -150,6 +175,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.subRedditList);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "Form1";
             this.Text = "Random App for Reddit";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -171,6 +197,7 @@
         private System.Windows.Forms.TextBox postText;
         private System.Windows.Forms.TreeView commentTree;
         private System.Windows.Forms.TrackBar userRating;
+        private System.Windows.Forms.Label scoreLabel;
     }
 }
 

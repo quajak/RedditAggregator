@@ -63,7 +63,8 @@ namespace RedditWFA
         {
             if (commentList.SelectedIndex == -1) return;
             Comment c = comments[commentList.SelectedIndex];
-            commentBox.Text = c.text + $"\r\n {c.score1} - {c.score2} - {c.score3} - {c.totalScore}";
+            scoreLabel.Text= $" {c.score1} - {c.score2} - {c.score3} - {c.totalScore} vs {c.userScore}";
+            commentBox.Text = c.text;
         }
 
         private void UserRating_Scroll(object sender, EventArgs e)
@@ -82,6 +83,11 @@ namespace RedditWFA
             c.userScore = userRating.Value / 5f;
             if (!Comment.Comments.Contains(c))
                 Comment.Comments.Add(c);
+        }
+
+        private void Label4_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
