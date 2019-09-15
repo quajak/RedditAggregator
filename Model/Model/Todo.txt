@@ -4,4 +4,6 @@ https://devblogs.microsoft.com/dotnet/announcing-ml-net-0-9-machine-learning-for
 https://devblogs.microsoft.com/dotnet/announcing-ml-net-1-0/ - auto machine learning?
 sentiment analysis
 save models dont always retrain them
-^simple fact model
+simple fact model
+Categorizing questions/trolls from other commments
+get accuracy
