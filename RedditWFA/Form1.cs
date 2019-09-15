@@ -15,7 +15,7 @@ namespace RedditWFA
 {
     public partial class Form1 : Form
     {
-        readonly List<string> subReddits = new List<string> { "programming", "whatisthisthing", "politics", "explainlikeimfive" };
+        readonly List<string> subReddits = new List<string> { "programming", "whatisthisthing","copypasta", "politics", "explainlikeimfive" };
 
         public Form1()
         {
