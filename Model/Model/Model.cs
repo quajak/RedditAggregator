@@ -69,8 +69,16 @@ namespace Controller
 
             var model = pipeline.Fit(dataView);
             function = env.Model.CreatePredictionEngine<ModelData, CommentPrediction>(model);
-            var metrics = env.Regression.Evaluate(model.Transform(dataView), "Score", "userScore");
+            var transData = model.Transform(dataView);
+            var metrics = env.Regression.Evaluate(transData, "Score", "userScore");
+            Trace.TraceInformation("CombinatorModel");
             Trace.TraceInformation($"{metrics.MeanAbsoluteError} {metrics.MeanSquaredError} {metrics.RootMeanSquaredError} {metrics.RSquared}");
+            var featureImportance = env.Regression.PermutationFeatureImportance(model.LastTransformer, transData, "Score");
+
+            for (int i = 0; i < featureImportance.Count(); i++)
+            {
+                Trace.TraceInformation($"Feature{i}: Difference in RMS - {featureImportance[i].RootMeanSquaredError.Mean}");
+            }
         }
 
         public override void LoadModel()
@@ -149,12 +157,20 @@ namespace Controller
             {
                 Trace.TraceInformation($"Feature{i}: Difference in RMS - {featureImportance[i].RootMeanSquaredError.Mean}");
             }
-           
+            env.Model.Save(model, dataView.Schema, "StatModel.zip");
         }
 
         public override void LoadModel()
         {
-            TrainModel();
+            if (File.Exists("StatModel.zip"))
+            {
+                var model = env.Model.Load("StatModel.zip", out DataViewSchema _);
+                function = env.Model.CreatePredictionEngine<CommentStats, CommentPrediction>(model);
+            }
+            else
+            {
+                TrainModel();
+            }            
         }
 
         public override float Predict(Comment comment)
