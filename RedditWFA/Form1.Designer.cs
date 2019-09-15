@@ -140,6 +140,7 @@
             // 
             // userRating
             // 
+            this.userRating.LargeChange = 1;
             this.userRating.Location = new System.Drawing.Point(697, 418);
             this.userRating.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.userRating.Maximum = 5;
