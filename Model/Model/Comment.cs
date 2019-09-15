@@ -1,5 +1,4 @@
-﻿using Microsoft.ML.Runtime.Api;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,7 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace RedditAggregator.Model
+namespace Controller
 {
     public class Comment
     {
@@ -16,8 +15,18 @@ namespace RedditAggregator.Model
         private const string Path = "./comments.txt";
         public int id;
         public string text;
+        /// <summary>
+        /// Score of the text model
+        /// </summary>
         public float score1;
+        /// <summary>
+        /// Score of the word model
+        /// </summary>
         public float score2;
+        /// <summary>
+        /// Score from the combinator model
+        /// </summary>
+        public float totalScore;
         public int upvotes;
         public int downvotes;
         public float userScore;
@@ -72,9 +81,7 @@ namespace RedditAggregator.Model
 
         public void Predict()
         {
-            var points = Controller.Instance.Predict(this);
-            score1 = points.value1;
-            score2 = points.value2;
+            Controller.Instance.Predict(this);
         }
 
         public static int GetId()
@@ -98,6 +105,11 @@ namespace RedditAggregator.Model
             if (!File.Exists(Path))
             {
                 comments = new List<Comment>();
+                //Generate garbage so model can learn something
+                for (int i = 0; i < 20; i++)
+                {
+                    comments.Add(new Comment(i, "i am stupid", 0.05f, 0.05f, 1, 1, 0, 0));
+                }
                 return;
             }
 
@@ -147,12 +159,14 @@ namespace RedditAggregator.Model
     public class CommentData
     {
         public string text;
+        public string[] words;
         public float vote;
         public float score;
 
         public CommentData(string text, int upvotes, int downvotes, float score)
         {
             this.text = text;
+            words = text.Split(' ');
             int b = Math.Abs(upvotes) + downvotes;
             vote = b == 0 ? 0 : Math.Abs(upvotes) / b;
             this.score = score;
@@ -161,7 +175,7 @@ namespace RedditAggregator.Model
 
     public class CommentPrediction
     {
-        [Column("0", name: "Score")]
-        public float score;
+        //[Column("0", name: "Score")]
+        public float Score;
     }
 }

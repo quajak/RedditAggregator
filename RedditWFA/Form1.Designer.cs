@@ -37,6 +37,8 @@
             this.commentBox = new System.Windows.Forms.TextBox();
             this.postText = new System.Windows.Forms.TextBox();
             this.commentTree = new System.Windows.Forms.TreeView();
+            this.userRating = new System.Windows.Forms.TrackBar();
+            ((System.ComponentModel.ISupportInitialize)(this.userRating)).BeginInit();
             this.SuspendLayout();
             // 
             // subRedditList
@@ -101,8 +103,9 @@
             this.commentBox.Name = "commentBox";
             this.commentBox.ReadOnly = true;
             this.commentBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.commentBox.Size = new System.Drawing.Size(265, 290);
+            this.commentBox.Size = new System.Drawing.Size(265, 260);
             this.commentBox.TabIndex = 7;
+            this.commentBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.CommentBox_MouseDoubleClick);
             // 
             // postText
             // 
@@ -122,11 +125,22 @@
             this.commentTree.Size = new System.Drawing.Size(248, 202);
             this.commentTree.TabIndex = 9;
             // 
+            // userRating
+            // 
+            this.userRating.Location = new System.Drawing.Point(523, 340);
+            this.userRating.Maximum = 5;
+            this.userRating.Name = "userRating";
+            this.userRating.Size = new System.Drawing.Size(265, 45);
+            this.userRating.TabIndex = 10;
+            this.userRating.Value = 2;
+            this.userRating.Scroll += new System.EventHandler(this.UserRating_Scroll);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 383);
+            this.Controls.Add(this.userRating);
             this.Controls.Add(this.commentTree);
             this.Controls.Add(this.postText);
             this.Controls.Add(this.commentBox);
@@ -139,6 +153,7 @@
             this.Name = "Form1";
             this.Text = "Random App for Reddit";
             this.Load += new System.EventHandler(this.Form1_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.userRating)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -155,6 +170,7 @@
         private System.Windows.Forms.TextBox commentBox;
         private System.Windows.Forms.TextBox postText;
         private System.Windows.Forms.TreeView commentTree;
+        private System.Windows.Forms.TrackBar userRating;
     }
 }
 

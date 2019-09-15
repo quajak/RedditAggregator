@@ -6,12 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RedditAggregator.Model
+namespace SourceApi
 {
 
     public class RedditApi
     {
-        static Reddit reddit = new Reddit();
+        readonly static Reddit reddit = new Reddit();
 
         public static List<Post> GetPosts(string subReddit, int count = 10)
         {
@@ -33,10 +33,10 @@ namespace RedditAggregator.Model
             return posts;
         }
 
-        public static List<Comment> GetComments(Post post)
+        public static List<Controller.Comment> GetComments(Post post)
         {
-            int startId = Comment.GetId();
-            List<Comment> comments = new List<Comment>();
+            int startId = Controller.Comment.GetId();
+            List<Controller.Comment> comments = new List<Controller.Comment>();
             foreach (var comment in post.Comments)
             {
                 comments.AddRange(GetComments(comment, -1, ref startId));
@@ -44,13 +44,13 @@ namespace RedditAggregator.Model
             return comments;
         }
 
-        static List<Comment> GetComments(RedditSharp.Things.Comment comment, int parentId, ref int id)
+        static List<Controller.Comment> GetComments(RedditSharp.Things.Comment comment, int parentId, ref int id)
         {
             if (comment.Body is null || comment.Body == "" || comment.Body == "[Removed]")
-                return new List<Comment>();
+                return new List<Controller.Comment>();
 
             int commentId = ++id;
-            List<Comment> comments = new List<Comment>() { new Comment(commentId, comment, parentId) };
+            List<Controller.Comment> comments = new List<Controller.Comment>() { new Controller.Comment(commentId, comment, parentId) };
             foreach (var subComment in comment.Comments)
             {
                 comments.AddRange(GetComments(subComment, commentId, ref id));

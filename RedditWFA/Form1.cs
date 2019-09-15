@@ -7,22 +7,31 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using RedditAggregator;
-using RedditAggregator.Model;
 using RedditSharp.Things;
-using Comment = RedditAggregator.Model.Comment;
+using Comment = Controller.Comment;
+
 
 namespace RedditWFA
 {
     public partial class Form1 : Form
     {
-        List<string> subReddits = new List<string> { "programming", "whatisthisthing", "politics", "explainlikeimfive" };
+        readonly List<string> subReddits = new List<string> { "programming", "whatisthisthing", "politics", "explainlikeimfive" };
 
         public Form1()
         {
-            RedditAggregator.RedditAggregator.TrainModels();
+            //RedditAggregator.RedditAggregator.TrainModels();
+            Controller.Controller _ = Controller.Controller.Instance;
+            //now update all comments
+            //Comment.RepredictAll();
+
             InitializeComponent();
             subRedditList.Items.AddRange(subReddits.ToArray());
+            FormClosed += Form1_FormClosed;
+        }
+
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Comment.SaveComments(Comment.Comments, true);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -34,7 +43,7 @@ namespace RedditWFA
         private void SubRedditList_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (subRedditList.SelectedIndex == -1) return;
-            posts = RedditAggregator.RedditAggregator.GetPosts((string)subRedditList.SelectedItem);
+            posts = SourceApi.RedditApi.GetPosts((string)subRedditList.SelectedItem);
             postList.Items.Clear();
             postList.Items.AddRange(posts.Select(p => p.Title).ToArray());
         }
@@ -45,7 +54,7 @@ namespace RedditWFA
             if (postList.SelectedIndex == -1) return;
             Post post = posts[postList.SelectedIndex];
             postText.Text = post.Title + "\r\n"+ posts[postList.SelectedIndex].SelfText;
-            comments = RedditApi.GetComments(post);
+            comments = SourceApi.RedditApi.GetComments(post);
             commentList.Items.Clear();
             commentList.Items.AddRange(comments.Select(c => c.text).ToArray());
         }
@@ -54,7 +63,25 @@ namespace RedditWFA
         {
             if (commentList.SelectedIndex == -1) return;
             Comment c = comments[commentList.SelectedIndex];
-            commentBox.Text = c.text + $"\r\n {c.score1} - {c.score2}";
+            commentBox.Text = c.text + $"\r\n {c.score1} - {c.score2} - {c.totalScore}";
+        }
+
+        private void UserRating_Scroll(object sender, EventArgs e)
+        {
+            if (commentList.SelectedIndex == -1) return;
+            Comment c = comments[commentList.SelectedIndex];
+            c.userScore = userRating.Value / 5f;
+            if(!Comment.Comments.Contains(c))
+                Comment.Comments.Add(c);
+        }
+
+        private void CommentBox_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (commentList.SelectedIndex == -1) return;
+            Comment c = comments[commentList.SelectedIndex];
+            c.userScore = userRating.Value / 5f;
+            if (!Comment.Comments.Contains(c))
+                Comment.Comments.Add(c);
         }
     }
 }

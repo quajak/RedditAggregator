@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RedditAggregator.Model
+namespace Controller
 {
     public class Controller
     {
         private static Controller instance;
-        BasicTextModel basicTextModel;
-        BasicWordModel basicWordModel;
+        readonly BasicTextModel basicTextModel;
+        readonly BasicWordModel basicWordModel;
+        readonly CombinatorModel combinatorModel;
 
         Controller()
         {
@@ -18,6 +19,8 @@ namespace RedditAggregator.Model
             basicTextModel.LoadModel();
             basicWordModel = new BasicWordModel();
             basicWordModel.LoadModel();
+            combinatorModel = new CombinatorModel();
+            combinatorModel.LoadModel();
         }
 
         public static Controller Instance {
@@ -27,11 +30,15 @@ namespace RedditAggregator.Model
                 return instance;
             } }
 
-        public (float value1, float value2) Predict(Comment c)
+        /// <summary>
+        /// used to predict the value of a comment
+        /// </summary>
+        /// <param name="c"></param>
+        public void Predict(Comment c)
         {
-            float v = basicTextModel.Predict(c);
-            float v1 = basicWordModel.Predict(c);
-            return (v, v1);
+            c.score1 = basicTextModel.Predict(c);
+            c.score2 = basicWordModel.Predict(c);
+            c.totalScore = combinatorModel.Predict(c);
         }
     }
 }
