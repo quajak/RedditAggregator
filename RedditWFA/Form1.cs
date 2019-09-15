@@ -15,14 +15,14 @@ namespace RedditWFA
 {
     public partial class Form1 : Form
     {
-        readonly List<string> subReddits = new List<string> { "programming", "whatisthisthing","copypasta", "politics", "explainlikeimfive" };
+        readonly List<string> subReddits = new List<string> { "programming", "whatisthisthing","copypasta","geopolitics", "politics", "explainlikeimfive" };
 
         public Form1()
         {
             //RedditAggregator.RedditAggregator.TrainModels();
             Controller.Controller _ = Controller.Controller.Instance;
             //now update all comments
-            //Comment.RepredictAll();
+            Comment.RepredictAll();
 
             InitializeComponent();
             subRedditList.Items.AddRange(subReddits.ToArray());
@@ -88,6 +88,13 @@ namespace RedditWFA
         private void Label4_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void QuickRate_Click(object sender, EventArgs e)
+        {
+            List<Comment> comments = SourceApi.RedditApi.GetComments(posts[postList.SelectedIndex]);
+            QuickRate quickRate = new QuickRate(comments);
+            quickRate.ShowDialog();
         }
     }
 }

@@ -20,10 +20,10 @@ namespace Controller
             basicTextModel.LoadModel();
             basicWordModel = new BasicWordModel();
             basicWordModel.LoadModel();
-            combinatorModel = new CombinatorModel();
-            combinatorModel.LoadModel();
             statModel = new StatModel();
             statModel.LoadModel();
+            combinatorModel = new CombinatorModel();
+            combinatorModel.LoadModel();
         }
 
         public static Controller Instance {

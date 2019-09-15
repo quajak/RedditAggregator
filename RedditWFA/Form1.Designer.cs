@@ -39,6 +39,7 @@
             this.commentTree = new System.Windows.Forms.TreeView();
             this.userRating = new System.Windows.Forms.TrackBar();
             this.scoreLabel = new System.Windows.Forms.Label();
+            this.quickRate = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.userRating)).BeginInit();
             this.SuspendLayout();
             // 
@@ -160,11 +161,22 @@
             this.scoreLabel.Text = "Score";
             this.scoreLabel.Click += new System.EventHandler(this.Label4_Click);
             // 
+            // quickRate
+            // 
+            this.quickRate.Location = new System.Drawing.Point(257, 63);
+            this.quickRate.Name = "quickRate";
+            this.quickRate.Size = new System.Drawing.Size(91, 23);
+            this.quickRate.TabIndex = 12;
+            this.quickRate.Text = "Quick rate";
+            this.quickRate.UseVisualStyleBackColor = true;
+            this.quickRate.Click += new System.EventHandler(this.QuickRate_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1067, 471);
+            this.Controls.Add(this.quickRate);
             this.Controls.Add(this.scoreLabel);
             this.Controls.Add(this.userRating);
             this.Controls.Add(this.commentTree);
@@ -199,6 +211,7 @@
         private System.Windows.Forms.TreeView commentTree;
         private System.Windows.Forms.TrackBar userRating;
         private System.Windows.Forms.Label scoreLabel;
+        private System.Windows.Forms.Button quickRate;
     }
 }
 
