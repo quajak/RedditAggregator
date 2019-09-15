@@ -12,6 +12,7 @@ namespace Controller
         readonly BasicTextModel basicTextModel;
         readonly BasicWordModel basicWordModel;
         readonly CombinatorModel combinatorModel;
+        readonly StatModel statModel;
 
         Controller()
         {
@@ -21,6 +22,8 @@ namespace Controller
             basicWordModel.LoadModel();
             combinatorModel = new CombinatorModel();
             combinatorModel.LoadModel();
+            statModel = new StatModel();
+            statModel.LoadModel();
         }
 
         public static Controller Instance {
@@ -38,6 +41,7 @@ namespace Controller
         {
             c.score1 = basicTextModel.Predict(c);
             c.score2 = basicWordModel.Predict(c);
+            c.score3 = statModel.Predict(c);
             c.totalScore = combinatorModel.Predict(c);
         }
     }

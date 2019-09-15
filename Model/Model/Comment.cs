@@ -24,6 +24,10 @@ namespace Controller
         /// </summary>
         public float score2;
         /// <summary>
+        /// Score of the stat model
+        /// </summary>
+        public float score3;
+        /// <summary>
         /// Score from the combinator model
         /// </summary>
         public float totalScore;
@@ -39,12 +43,13 @@ namespace Controller
                     LoadComments();
                 return comments; }}
 
-        public Comment(int id, string text, float score1, float score2, int upvotes, int downvotes, float userScore, int parentId)
+        public Comment(int id, string text, float score1, float score2, float score3, int upvotes, int downvotes, float userScore, int parentId)
         {
             this.id = id;
             this.text = text;
             this.score1 = score1;
             this.score2 = score2;
+            this.score3 = score3;
             this.upvotes = upvotes;
             this.downvotes = downvotes;
             this.userScore = userScore;
@@ -62,7 +67,7 @@ namespace Controller
         }
 
         public Comment(int id, RedditSharp.Things.Comment comment, float userScore, int parentId) 
-            : this(id, Regex.Replace(comment.Body, @"[\n-]", ""), 0, 0,comment.Upvotes, comment.Downvotes, userScore,  parentId)
+            : this(id, Regex.Replace(comment.Body, @"[\n-]", ""), 0, 0, 0,comment.Upvotes, comment.Downvotes, userScore,  parentId)
         {
 
         }
@@ -74,7 +79,7 @@ namespace Controller
         /// <param name="comment"></param>
         /// <param name="parentId"></param>
         public Comment(int id, RedditSharp.Things.Comment comment, int parentId)
-            : this(id, Regex.Replace(comment.Body, @"[\n-]", ""), 0, 0, comment.Upvotes, comment.Downvotes, 0.5f, parentId)
+            : this(id, Regex.Replace(comment.Body, @"[\n-]", ""), 0, 0, 0, comment.Upvotes, comment.Downvotes, 0.5f, parentId)
         {
             Predict();
         }
@@ -108,7 +113,7 @@ namespace Controller
                 //Generate garbage so model can learn something
                 for (int i = 0; i < 20; i++)
                 {
-                    comments.Add(new Comment(i, "i am stupid", 0.05f, 0.05f, 1, 1, 0, 0));
+                    comments.Add(new Comment(i, "i am stupid", 0.05f, 0.05f,0.05f, 1, 1, 0, 0));
                 }
                 return;
             }
@@ -122,11 +127,12 @@ namespace Controller
                 string text = words[1];
                 float score1 = float.Parse(words[2]);
                 float score2 = float.Parse(words[3]);
-                int upvotes = int.Parse(words[4]);
-                int downvotes = int.Parse(words[5]);
-                float userScore = float.Parse(words[6]);
-                int parentId = int.Parse(words[7] == "" ? words[8] : words[7]); //Some weird bug look at it later
-                comments.Add(new Comment(id, text, score1, score2, upvotes, downvotes, userScore, parentId));
+                float score3 = float.Parse(words[4]);
+                int upvotes = int.Parse(words[5]);
+                int downvotes = int.Parse(words[6]);
+                float userScore = float.Parse(words[7]);
+                int parentId = int.Parse(words[8] == "" ? words[9] : words[8]); //Some weird bug look at it later
+                comments.Add(new Comment(id, text, score1, score2, score3, upvotes, downvotes, userScore, parentId));
             }
         }
 
@@ -139,7 +145,7 @@ namespace Controller
             {
                 foreach (var c in comments)
                 {
-                    string line = $"{c.id}-{c.text}-{c.score1}-{c.score2}-{c.upvotes}-{c.downvotes}-{c.userScore}-{c.parentId}";
+                    string line = $"{c.id}-{c.text}-{c.score1}-{c.score2}-{c.score3}-{c.upvotes}-{c.downvotes}-{c.userScore}-{c.parentId}";
                     writer.WriteLine(line);
                 }
             }

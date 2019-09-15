@@ -5,5 +5,9 @@ https://devblogs.microsoft.com/dotnet/announcing-ml-net-1-0/ - auto machine lear
 sentiment analysis
 save models dont always retrain them
 simple fact model
-Categorizing questions/trolls from other commments
+Categorizing questions/trolls/thanks/personal attacks/bots from other commments
 get accuracy
+analyse comments down -> top
+
+Data structure changes:
+ - get total post stats for votes or even for subreddit

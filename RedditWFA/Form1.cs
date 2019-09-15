@@ -63,7 +63,7 @@ namespace RedditWFA
         {
             if (commentList.SelectedIndex == -1) return;
             Comment c = comments[commentList.SelectedIndex];
-            commentBox.Text = c.text + $"\r\n {c.score1} - {c.score2} - {c.totalScore}";
+            commentBox.Text = c.text + $"\r\n {c.score1} - {c.score2} - {c.score3} - {c.totalScore}";
         }
 
         private void UserRating_Scroll(object sender, EventArgs e)

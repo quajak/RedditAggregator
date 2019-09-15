@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Controller
 {
@@ -28,9 +29,8 @@ namespace Controller
             List<CommentData> data = Comment.Comments.Select(c => (CommentData)c).ToList();
             var dataView = env.Data.LoadFromEnumerable(data);
 
-            var pipeline = env.Transforms.Text.FeaturizeText("ftext", 
+            var pipeline = env.Transforms.Text.FeaturizeText("Features", 
                 new TextFeaturizingEstimator.Options() { KeepNumbers = true }, "text")
-            .Append(env.Transforms.Concatenate("Features", "ftext", "vote"))
             .Append(env.Regression.Trainers.LbfgsPoissonRegression("score", "Features")); //TODO: Why are we using this regression?
 
             var model = pipeline.Fit(dataView);
@@ -58,10 +58,10 @@ namespace Controller
         public override void TrainModel()
         {
             env = new MLContext();
-            List<ModelData> data = Comment.Comments.Select(c => new ModelData(c.score2, c.score1, c.userScore)).ToList();
+            List<ModelData> data = Comment.Comments.Select(c => new ModelData(c.score2, c.score1, c.userScore, c.score3)).ToList();
             var dataView = env.Data.LoadFromEnumerable(data);
 
-            var pipeline = env.Transforms.Concatenate("Features", "wordModel", "textModel")
+            var pipeline = env.Transforms.Concatenate("Features", "wordModel", "textModel", "statModel")
             .Append(env.Regression.Trainers.Sdca("userScore","Features"));
 
             var model = pipeline.Fit(dataView);
@@ -75,7 +75,7 @@ namespace Controller
 
         public override float Predict(Comment comment)
         {
-            float score = function.Predict(new ModelData(comment.score2, comment.score1, comment.userScore)).Score;
+            float score = function.Predict(new ModelData(comment.score2, comment.score1, comment.userScore, comment.score3)).Score;
             return score;
         }
     }
@@ -95,6 +95,52 @@ namespace Controller
         public EmbeddingData()
         {
 
+        }
+    }
+
+    class CommentStats
+    {
+        //public float votes; - until we get stats about total post votes / subreddit this is useless
+        public float upvotePercentage;
+        public float length;
+        public float punctuationPercent;
+        public float links;
+        public float score;
+
+        public CommentStats(Comment comment)
+        {
+            upvotePercentage = (comment.upvotes + comment.downvotes) != 0 ? comment.upvotes / (comment.upvotes + comment.downvotes) : 50; 
+            length = (float)Math.Log(comment.text.Length);
+            punctuationPercent = (float)Regex.Replace(comment.text, @"[A-Za-z ]", "").Length / comment.text.Length;
+            links = (float)Math.Log(Regex.Matches(comment.text, @"[\w+\.(com|org|net|ca|us|co|gov)]").Count, 2);
+            score = comment.userScore;
+        }
+    }
+
+    class StatModel : Model
+    {
+        PredictionEngine<CommentStats, CommentPrediction> function;
+
+        public override void TrainModel()
+        {
+            List<CommentStats> data = Comment.Comments.Select(c => new CommentStats(c)).ToList();
+            var dataView = env.Data.LoadFromEnumerable(data);
+
+            var pipeline = env.Transforms.Concatenate("Features", "upvotePercentage", "length", "punctuationPercent", "links")
+                .Append(env.Regression.Trainers.Sdca("score", "Features"));
+            var model = pipeline.Fit(dataView);
+
+            function = env.Model.CreatePredictionEngine<CommentStats, CommentPrediction>(model);
+        }
+
+        public override void LoadModel()
+        {
+            TrainModel();
+        }
+
+        public override float Predict(Comment comment)
+        {
+            return function.Predict(new CommentStats(comment)).Score;
         }
     }
 
@@ -151,13 +197,15 @@ namespace Controller
     {
         public float wordModel;
         public float textModel;
+        public float statModel;
         public float userScore;
 
-        public ModelData(float wordModel, float textModel, float userScore)
+        public ModelData(float wordModel, float textModel, float userScore, float statModel)
         {
             this.wordModel = wordModel;
             this.textModel = textModel;
             this.userScore = userScore;
+            this.statModel = statModel;
         }
     }
 
